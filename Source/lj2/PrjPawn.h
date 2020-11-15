@@ -12,7 +12,7 @@ class LJ2_API APrjPawn : public APawn
 
 public:
   UPROPERTY(EditAnywhere)
-  class UCapsuleComponent *capsule = nullptr;
+  class UStaticMeshComponent *mesh = nullptr;
 
   UPROPERTY(EditAnywhere)
   class UFloatingPawnMovement *movement = nullptr;

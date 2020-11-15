@@ -1,15 +1,15 @@
 #include "PrjPawn.h"
 #include "log.hpp"
-#include <Components/CapsuleComponent.h>
+#include <Components/StaticMeshComponent.h>
 #include <GameFramework/FloatingPawnMovement.h>
 #include <GameFramework/PlayerController.h>
 #include <GameFramework/PlayerInput.h>
 
 APrjPawn::APrjPawn()
-  : capsule(CreateDefaultSubobject<UCapsuleComponent>("capsule")),
+  : mesh(CreateDefaultSubobject<UStaticMeshComponent>("mesh")),
     movement(CreateDefaultSubobject<UFloatingPawnMovement>("movement"))
 {
-  SetRootComponent(capsule);
+  SetRootComponent(mesh);
 
   PrimaryActorTick.bCanEverTick = true;
 }
@@ -37,8 +37,8 @@ auto APrjPawn::SetupPlayerInputComponent(UInputComponent *in) -> void
   in->BindAxis("Frwd", this, &APrjPawn::frwd);
   in->BindAxis("LookUp", this, &APrjPawn::AddControllerPitchInput);
   in->BindAxis("SRight", this, &APrjPawn::sRight);
-  in->BindAxis("TurnRight", this, &APrjPawn::AddControllerYawInput);}
-
+  in->BindAxis("TurnRight", this, &APrjPawn::AddControllerYawInput);
+}
 
 auto APrjPawn::frwd(float val) -> void
 {
