@@ -1,7 +1,7 @@
 #pragma once
 
-#include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include <CoreMinimal.h>
+#include <GameFramework/Pawn.h>
 
 #include "PrjPawn.generated.h"
 
@@ -11,12 +11,22 @@ class LJ2_API APrjPawn : public APawn
   GENERATED_BODY()
 
 public:
+  UPROPERTY(EditAnywhere)
+  class UCapsuleComponent *capsule = nullptr;
+
+  UPROPERTY(EditAnywhere)
+  class UFloatingPawnMovement *movement = nullptr;
+
   APrjPawn();
 
 protected:
-  virtual void BeginPlay() override;
+  auto BeginPlay() -> void override;
 
 public:
-  virtual void Tick(float DeltaTime) override;
-  virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
+  auto Tick(float DeltaTime) -> void override;
+  auto SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) -> void override;
+
+private:
+  auto frwd(float) -> void;
+  auto sRight(float) -> void;
 };
