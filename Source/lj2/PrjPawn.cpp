@@ -33,8 +33,6 @@ auto APrjPawn::SetupPlayerInputComponent(UInputComponent *in) -> void
 {
   Super::SetupPlayerInputComponent(in);
 
-  GetWorld()->GetFirstPlayerController()->PlayerInput->SetMouseSensitivity(0.032f);
-
   in->BindAction("Settings", IE_Pressed, this, &APrjPawn::settings);
   in->BindAxis("Frwd", this, &APrjPawn::frwd);
   in->BindAxis("LookUp", this, &APrjPawn::AddControllerPitchInput);
