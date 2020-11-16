@@ -12,6 +12,7 @@ die()
 rsync -avu --delete --cvs-exclude --exclude="/.git" \
       --exclude="/Assets" \
       --exclude="/Content" \
+      --exclude="/Config" \
       --exclude="/thirdparty" \
       --exclude="Binaries" \
       --exclude="Build" \

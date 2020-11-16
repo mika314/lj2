@@ -11,22 +11,32 @@ class LJ2_API APrjPawn : public APawn
   GENERATED_BODY()
 
 public:
+  APrjPawn();
+
   UPROPERTY(EditAnywhere)
   class UStaticMeshComponent *mesh = nullptr;
 
   UPROPERTY(EditAnywhere)
   class UFloatingPawnMovement *movement = nullptr;
 
-  APrjPawn();
+  UFUNCTION(BlueprintCallable)
+  void setSettingsUi(class UUserWidget *val) { settingsUi = val; }
 
-protected:
-  auto BeginPlay() -> void override;
+  UFUNCTION(BlueprintCallable)
+  void setHudUi(class UUserWidget *val) { hudUi = val; }
 
-public:
+  UFUNCTION(BlueprintCallable)
+  void settingsUiClose();
+
+  auto SetupPlayerInputComponent(class UInputComponent *) -> void override;
   auto Tick(float DeltaTime) -> void override;
-  auto SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) -> void override;
 
 private:
+  auto BeginPlay() -> void override;
   auto frwd(float) -> void;
   auto sRight(float) -> void;
+  auto settings() -> void;
+
+  UUserWidget *settingsUi = nullptr;
+  UUserWidget *hudUi = nullptr;
 };

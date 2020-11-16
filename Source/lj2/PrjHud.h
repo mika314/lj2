@@ -3,10 +3,10 @@
 #include <Blueprint/UserWidget.h>
 #include <CoreMinimal.h>
 
-#include "MenuUi.generated.h"
+#include "PrjHud.generated.h"
 
 UCLASS()
-class LJ2_API UMenuUi : public UUserWidget
+class LJ2_API UPrjHud : public UUserWidget
 {
   GENERATED_BODY()
 };
