@@ -90,23 +90,15 @@ shield will open.
 
 ## Sat 7:15 AM Continue with gameplay
 
-- make a playable prototipe
-
-- work on characters
-
-- build the level from assets
-
 - sounds
-  - hacking sound
-  - hacked sound
-  - fly sound
+  - [ ] hacking sound
+  - [ ] hacked sound
+  - [ ] fly sound
 
-- landing animation
-
-- model of hacked satellite
-
-- bg images on intro and cleared screens
-
+- [ ] landing animation
+- [ ] model of hacked satellite
+- [ ] bg images on intro and cleared screens
+- [ ] model of spaceship dashboard
 
 ...
 
