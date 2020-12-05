@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -9,18 +7,21 @@
 UCLASS()
 class LJ2_API ASatellite : public AActor
 {
-	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	ASatellite();
+  GENERATED_BODY()
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+public:
+  ASatellite();
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+  UPROPERTY(EditAnywhere)
+  class UStaticMeshComponent *mesh = nullptr;
 
+  UFUNCTION(BlueprintCallable)
+  float getHackedPercent() const;
+
+  void hack(float dt);
+
+private:
+  auto Tick(float DeltaTime) -> void override;
+  auto BeginPlay() -> void override;
+  float hackedPercent = 0;
 };

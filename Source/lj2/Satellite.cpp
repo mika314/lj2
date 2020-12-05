@@ -1,27 +1,33 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Satellite.h"
+#include <Components/StaticMeshComponent.h>
 
-// Sets default values
-ASatellite::ASatellite()
+ASatellite::ASatellite() : mesh(CreateDefaultSubobject<UStaticMeshComponent>("mesh"))
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+  SetRootComponent(mesh);
 
+  PrimaryActorTick.bCanEverTick = true;
 }
 
-// Called when the game starts or when spawned
-void ASatellite::BeginPlay()
+auto ASatellite::BeginPlay() -> void
 {
-	Super::BeginPlay();
-	
+  Super::BeginPlay();
 }
 
-// Called every frame
-void ASatellite::Tick(float DeltaTime)
+auto ASatellite::Tick(float DeltaTime) -> void
 {
-	Super::Tick(DeltaTime);
-
+  Super::Tick(DeltaTime);
+  const auto time = GetWorld()->GetTimeSeconds();
+  SetActorLocation(FVector(0, 6000 * sin(0.1 * time), 6000 * cos(0.1 * time)));
 }
 
+auto ASatellite::getHackedPercent() const -> float
+{
+  return hackedPercent;
+}
+
+auto ASatellite::hack(float dt) -> void
+{
+  if (hackedPercent >= 100)
+    return;
+  hackedPercent += 16 * dt;
+}

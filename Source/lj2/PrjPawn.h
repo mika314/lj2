@@ -28,15 +28,23 @@ public:
   UFUNCTION(BlueprintCallable)
   void settingsUiClose();
 
+  UFUNCTION(BlueprintCallable)
+  class ASatellite *getLockedSatellite() const;
+
   auto SetupPlayerInputComponent(class UInputComponent *) -> void override;
   auto Tick(float DeltaTime) -> void override;
 
 private:
   auto BeginPlay() -> void override;
   auto frwd(float) -> void;
+  auto hackOff() -> void;
+  auto hackOn() -> void;
   auto sRight(float) -> void;
   auto settings() -> void;
 
   UUserWidget *settingsUi = nullptr;
   UUserWidget *hudUi = nullptr;
+
+  class ASatellite *lockedSatellite;
+  bool isHacking = false;
 };

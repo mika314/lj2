@@ -1,4 +1,5 @@
 #include "PrjPawn.h"
+#include "Satellite.h"
 #include "log.hpp"
 #include <Blueprint/UserWidget.h>
 #include <Components/StaticMeshComponent.h>
@@ -20,13 +21,30 @@ void APrjPawn::BeginPlay()
   Super::BeginPlay();
 }
 
-void APrjPawn::Tick(float DeltaTime)
+void APrjPawn::Tick(float dt)
 {
-  Super::Tick(DeltaTime);
+  Super::Tick(dt);
   auto viewRot = GetViewRotation();
   auto actRot = GetActorRotation();
   actRot.Yaw = viewRot.Yaw;
   SetActorRotation(actRot);
+
+  FVector loc;
+  FRotator rot;
+  GetActorEyesViewPoint(loc, rot);
+
+  FCollisionQueryParams params;
+  params.AddIgnoredActor(this);
+
+  FHitResult hitResult;
+  lockedSatellite = nullptr;
+  if (!GetWorld()->LineTraceSingleByChannel(
+        hitResult, loc, loc + rot.Vector() * 12000.f, ECollisionChannel::ECC_Visibility, params))
+    return;
+
+  lockedSatellite = Cast<ASatellite>(hitResult.Actor.Get());
+  if (isHacking && lockedSatellite)
+    lockedSatellite->hack(dt);
 }
 
 auto APrjPawn::SetupPlayerInputComponent(UInputComponent *in) -> void
@@ -34,6 +52,8 @@ auto APrjPawn::SetupPlayerInputComponent(UInputComponent *in) -> void
   Super::SetupPlayerInputComponent(in);
 
   in->BindAction("Settings", IE_Pressed, this, &APrjPawn::settings);
+  in->BindAction("Hack", IE_Pressed, this, &APrjPawn::hackOn);
+  in->BindAction("Hack", IE_Released, this, &APrjPawn::hackOff);
   in->BindAxis("Frwd", this, &APrjPawn::frwd);
   in->BindAxis("LookUp", this, &APrjPawn::AddControllerPitchInput);
   in->BindAxis("SRight", this, &APrjPawn::sRight);
@@ -70,4 +90,19 @@ auto APrjPawn::settingsUiClose() -> void
   hudUi->SetVisibility(ESlateVisibility::Visible);
   playerController->SetInputMode(FInputModeGameOnly{});
   playerController->bShowMouseCursor = false;
+}
+
+auto APrjPawn::getLockedSatellite() const -> class ASatellite *
+{
+  return lockedSatellite;
+}
+
+auto APrjPawn::hackOff() -> void
+{
+  isHacking = false;
+}
+
+auto APrjPawn::hackOn() -> void
+{
+  isHacking = true;
 }
