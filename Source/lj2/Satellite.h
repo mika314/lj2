@@ -24,4 +24,5 @@ private:
   auto Tick(float DeltaTime) -> void override;
   auto BeginPlay() -> void override;
   float hackedPercent = 0;
+  FRotator rot;
 };

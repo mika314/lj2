@@ -80,13 +80,16 @@ Communicator chime.
   need to do a penetration test of our new authentication system. We
   are offering you for this work 1.3 Billion Galactic Credits.
 
-## Fri 19:30 Gameplay description
+## Fri 19:30 PM Gameplay description
 
 Fly in the space next to the planet, approach satellites and hack
 them. As soon as certain present of satellites are hacked gate of the
 shield will open.
 
-## Fri 19:35 Implement initial gameplay
+## Fri 19:35 PM Implement initial gameplay
+
+## Sat 7:15 AM Continue with gameplay
+
 
 
 - make a playable prototipe
