@@ -34,6 +34,9 @@ public:
   UFUNCTION(BlueprintCallable)
   bool getIsHacking() const { return isHacking; }
 
+  UFUNCTION(BlueprintCallable)
+  bool isOnTheStargate() const;
+
   auto SetupPlayerInputComponent(class UInputComponent *) -> void override;
   auto Tick(float DeltaTime) -> void override;
 
@@ -42,6 +45,7 @@ private:
   auto frwd(float) -> void;
   auto hackOff() -> void;
   auto hackOn() -> void;
+  auto land() -> void;
   auto sRight(float) -> void;
   auto settings() -> void;
 

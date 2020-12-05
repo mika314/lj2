@@ -18,6 +18,8 @@ public:
   UFUNCTION(BlueprintCallable)
   bool isGateOpen() const { return hackedSatellitesCount >= 10; }
 
+  auto levelCleared() -> void;
+
 private:
   int hackedSatellitesCount = 0;
 };

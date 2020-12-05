@@ -1,4 +1,5 @@
 #include "PrjPawn.h"
+#include "PrjGameState.h"
 #include "Satellite.h"
 #include "log.hpp"
 #include <Blueprint/UserWidget.h>
@@ -54,6 +55,7 @@ auto APrjPawn::SetupPlayerInputComponent(UInputComponent *in) -> void
   in->BindAction("Settings", IE_Pressed, this, &APrjPawn::settings);
   in->BindAction("Hack", IE_Pressed, this, &APrjPawn::hackOn);
   in->BindAction("Hack", IE_Released, this, &APrjPawn::hackOff);
+  in->BindAction("Land", IE_Pressed, this, &APrjPawn::land);
   in->BindAxis("Frwd", this, &APrjPawn::frwd);
   in->BindAxis("LookUp", this, &APrjPawn::AddControllerPitchInput);
   in->BindAxis("SRight", this, &APrjPawn::sRight);
@@ -105,4 +107,32 @@ auto APrjPawn::hackOff() -> void
 auto APrjPawn::hackOn() -> void
 {
   isHacking = true;
+}
+
+bool APrjPawn::isOnTheStargate() const
+{
+  auto loc = GetActorLocation();
+  const auto K = 0.01f;
+  while (loc.X > 360 / K)
+    loc.X -= 360 / K;
+  while (loc.X < 0)
+    loc.X += 360 / K;
+  while (loc.Y > 360 / K)
+    loc.Y -= 360 / K;
+  while (loc.X < 0)
+    loc.Y += 360 / K;
+  return (loc.X + 360 / K < 360 / K * 1.02 && loc.X + 360 / K > 360 / K * 0.98 &&
+          loc.Y + 360 / K < 360 / K * 1.02 && loc.Y + 360 / K > 360 / K * 0.98);
+}
+
+auto APrjPawn::land() -> void
+{
+  if (!isOnTheStargate())
+    return;
+  auto gs = Cast<APrjGameState>(GetWorld()->GetGameState());
+  if (!gs)
+    return;
+  if (!gs->isGateOpen())
+    return;
+  gs->levelCleared();
 }
