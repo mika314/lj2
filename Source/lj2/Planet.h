@@ -16,6 +16,9 @@ public:
   UPROPERTY(EditAnywhere)
   class UStaticMeshComponent *mesh = nullptr;
 
+  UPROPERTY(EditAnywhere)
+  class UStaticMeshComponent *starGate = nullptr;
+
 private:
   auto BeginPlay() -> void override;
   auto Tick(float DeltaTime) -> void override;

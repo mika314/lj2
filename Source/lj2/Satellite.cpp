@@ -50,7 +50,6 @@ auto ASatellite::hack(float dt) -> void
     auto gs = Cast<APrjGameState>(GetWorld()->GetGameState());
     if (!gs)
       return;
-    LOG("Satelite is hacked");
     gs->sateliteIsHacked();
   }
 }

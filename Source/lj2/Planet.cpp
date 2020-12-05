@@ -1,11 +1,16 @@
 #include "Planet.h"
+#include "PrjGameState.h"
+#include "PrjPawn.h"
 #include "log.hpp"
 #include <Components/StaticMeshComponent.h>
 #include <Kismet/GameplayStatics.h>
-#include "PrjPawn.h"
 
-APlanet::APlanet() : mesh(CreateDefaultSubobject<UStaticMeshComponent>("mesh"))
+APlanet::APlanet()
+  : mesh(CreateDefaultSubobject<UStaticMeshComponent>("mesh")),
+    starGate(CreateDefaultSubobject<UStaticMeshComponent>("starGate"))
 {
+  SetRootComponent(mesh);
+  starGate->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
   PrimaryActorTick.bCanEverTick = true;
 }
 
@@ -17,6 +22,13 @@ auto APlanet::BeginPlay() -> void
 auto APlanet::Tick(float DeltaTime) -> void
 {
   Super::Tick(DeltaTime);
+
+  {
+    auto gs = Cast<APrjGameState>(GetWorld()->GetGameState());
+    if (!gs)
+      return;
+    starGate->SetVisibility(gs->isGateOpen());
+  }
 
   auto pawn = Cast<APrjPawn>(UGameplayStatics::GetPlayerPawn(this, 0));
   if (!pawn)

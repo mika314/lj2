@@ -15,6 +15,9 @@ public:
   UFUNCTION(BlueprintCallable)
   int getHackedSatellitesCount() const { return hackedSatellitesCount; }
 
+  UFUNCTION(BlueprintCallable)
+  bool isGateOpen() const { return hackedSatellitesCount >= 10; }
+
 private:
   int hackedSatellitesCount = 0;
 };
