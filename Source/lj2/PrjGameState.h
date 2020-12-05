@@ -10,13 +10,16 @@ class LJ2_API APrjGameState : public AGameStateBase
 {
   GENERATED_BODY()
 public:
-  auto sateliteIsHacked() -> void { ++hackedSatellitesCount; }
+  auto sateliteIsHacked() -> void;
 
   UFUNCTION(BlueprintCallable)
-  int getHackedSatellitesCount() const { return hackedSatellitesCount; }
+  int getHackedSatellitesCount() const;
 
   UFUNCTION(BlueprintCallable)
-  bool isGateOpen() const { return hackedSatellitesCount >= 10; }
+  bool isGateOpen() const;
+
+  UFUNCTION(BlueprintCallable)
+  int numberOfSatellitesNeededToClearLevel() const;
 
   auto levelCleared() -> void;
 

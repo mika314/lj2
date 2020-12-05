@@ -109,20 +109,20 @@ auto APrjPawn::hackOn() -> void
   isHacking = true;
 }
 
-bool APrjPawn::isOnTheStargate() const
+auto APrjPawn::isOnTheStargate() const -> bool
 {
   auto loc = GetActorLocation();
   const auto K = 0.01f;
-  while (loc.X > 360 / K)
+  while (loc.X > 360 / K * 3 / 2)
     loc.X -= 360 / K;
-  while (loc.X < 0)
+  while (loc.X < 360 / K / 2)
     loc.X += 360 / K;
-  while (loc.Y > 360 / K)
+  while (loc.Y > 360 / K * 3 / 2)
     loc.Y -= 360 / K;
-  while (loc.X < 0)
+  while (loc.Y < 360 / K / 2)
     loc.Y += 360 / K;
-  return (loc.X + 360 / K < 360 / K * 1.02 && loc.X + 360 / K > 360 / K * 0.98 &&
-          loc.Y + 360 / K < 360 / K * 1.02 && loc.Y + 360 / K > 360 / K * 0.98);
+  return (loc.X < 360 / K * 1.02 && loc.X > 360 / K * 0.98 && //
+          loc.Y < 360 / K * 1.02 && loc.Y > 360 / K * 0.98);
 }
 
 auto APrjPawn::land() -> void
