@@ -31,6 +31,9 @@ public:
   UFUNCTION(BlueprintCallable)
   class ASatellite *getLockedSatellite() const;
 
+  UFUNCTION(BlueprintCallable)
+  bool getIsHacking() const { return isHacking; }
+
   auto SetupPlayerInputComponent(class UInputComponent *) -> void override;
   auto Tick(float DeltaTime) -> void override;
 

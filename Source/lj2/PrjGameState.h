@@ -9,4 +9,12 @@ UCLASS()
 class LJ2_API APrjGameState : public AGameStateBase
 {
   GENERATED_BODY()
+public:
+  auto sateliteIsHacked() -> void { ++hackedSatellitesCount; }
+
+  UFUNCTION(BlueprintCallable)
+  int getHackedSatellitesCount() const { return hackedSatellitesCount; }
+
+private:
+  int hackedSatellitesCount = 0;
 };

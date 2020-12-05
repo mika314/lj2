@@ -1,5 +1,7 @@
 #include "Satellite.h"
+#include "PrjGameState.h"
 #include "PrjPawn.h"
+#include "log.hpp"
 #include <Components/StaticMeshComponent.h>
 #include <Kismet/GameplayStatics.h>
 
@@ -43,4 +45,12 @@ auto ASatellite::hack(float dt) -> void
   if (hackedPercent >= 100)
     return;
   hackedPercent += 16 * dt;
+  if (hackedPercent >= 100)
+  {
+    auto gs = Cast<APrjGameState>(GetWorld()->GetGameState());
+    if (!gs)
+      return;
+    LOG("Satelite is hacked");
+    gs->sateliteIsHacked();
+  }
 }
