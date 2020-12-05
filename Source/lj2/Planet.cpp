@@ -1,27 +1,30 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Planet.h"
+#include "log.hpp"
+#include <Components/StaticMeshComponent.h>
+#include <Kismet/GameplayStatics.h>
+#include "PrjPawn.h"
 
-// Sets default values
-APlanet::APlanet()
+APlanet::APlanet() : mesh(CreateDefaultSubobject<UStaticMeshComponent>("mesh"))
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+  PrimaryActorTick.bCanEverTick = true;
 }
 
-// Called when the game starts or when spawned
-void APlanet::BeginPlay()
+auto APlanet::BeginPlay() -> void
 {
-	Super::BeginPlay();
-	
+  Super::BeginPlay();
 }
 
-// Called every frame
-void APlanet::Tick(float DeltaTime)
+auto APlanet::Tick(float DeltaTime) -> void
 {
-	Super::Tick(DeltaTime);
+  Super::Tick(DeltaTime);
 
+  auto pawn = Cast<APrjPawn>(UGameplayStatics::GetPlayerPawn(this, 0));
+  if (!pawn)
+    return;
+
+  const auto loc = pawn->GetActorLocation();
+
+  const auto K = 0.01f;
+  SetActorRotation(FRotator::MakeFromEuler(FVector{-K * loc.Y, K * loc.X, 0}));
+  SetActorLocation(FVector{loc.X, loc.Y, 0});
 }
-

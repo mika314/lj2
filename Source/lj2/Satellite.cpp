@@ -1,6 +1,7 @@
 #include "Satellite.h"
+#include "PrjPawn.h"
 #include <Components/StaticMeshComponent.h>
-
+#include <Kismet/GameplayStatics.h>
 
 ASatellite::ASatellite()
   : mesh(CreateDefaultSubobject<UStaticMeshComponent>("mesh")),
@@ -20,7 +21,16 @@ auto ASatellite::Tick(float DeltaTime) -> void
 {
   Super::Tick(DeltaTime);
   const auto time = GetWorld()->GetTimeSeconds();
-  SetActorLocation(rot.RotateVector(FVector(0, 6000 * sin(0.1 * time), 6000 * cos(0.1 * time))));
+  auto pawn = Cast<APrjPawn>(UGameplayStatics::GetPlayerPawn(this, 0));
+  if (!pawn)
+    return;
+
+  const auto pawnLoc = pawn->GetActorLocation();
+  auto loc = rot.RotateVector(FVector(0, 6000 * sin(0.1 * time), 6000 * cos(0.1 * time)));
+  const auto K = 0.01f;
+  SetActorLocation(
+    FRotator::MakeFromEuler(FVector{-K * pawnLoc.Y, K * pawnLoc.X, 0}).RotateVector(loc) +
+    FVector{pawnLoc.X, pawnLoc.Y, 0});
 }
 
 auto ASatellite::getHackedPercent() const -> float
