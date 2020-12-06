@@ -94,13 +94,16 @@ shield will open.
   - [x] hacking
   - [x] hacked
   - [ ] fly
-  - [ ] land
+  - [x] land
   - [x] gate
 
 - [x] landing animation
 - [ ] model of hacked satellite
 - [ ] bg images on intro and cleared screens
 - [x] model of spaceship dashboard
+
+## Sun 7:00 AM Main Menu
+
 
 ...
 
