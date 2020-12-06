@@ -3,10 +3,9 @@
 #include <Engine/World.h>
 #include <Kismet/GameplayStatics.h>
 
-APrjGameState::APrjGameState() : gateSound(CreateDefaultSubobject<UAudioComponent>("hackingSound"))
+APrjGameState::APrjGameState() : gateSound(CreateDefaultSubobject<UAudioComponent>("gateSound"))
 {
-  gateSound->SetupAttachment(RootComponent);
-  gateSound->SetRelativeLocation(FVector());
+  SetRootComponent(gateSound);
 }
 
 auto APrjGameState::levelCleared() -> void
