@@ -5,15 +5,19 @@
 #include <Components/AudioComponent.h>
 #include <Components/StaticMeshComponent.h>
 #include <Kismet/GameplayStatics.h>
+#include <Particles/ParticleSystemComponent.h>
 
 ASatellite::ASatellite()
   : mesh(CreateDefaultSubobject<UStaticMeshComponent>("mesh")),
     hackedSound(CreateDefaultSubobject<UAudioComponent>("hackedSound")),
+    fire(CreateDefaultSubobject<UParticleSystemComponent>("fire")),
     rot(rand() % 360, rand() % 360, rand() % 360)
 {
   SetRootComponent(mesh);
   hackedSound->SetupAttachment(RootComponent);
   hackedSound->SetRelativeLocation(FVector());
+  fire->SetupAttachment(RootComponent);
+  fire->SetRelativeLocation(FVector());
 
   PrimaryActorTick.bCanEverTick = true;
 }
@@ -21,6 +25,7 @@ ASatellite::ASatellite()
 auto ASatellite::BeginPlay() -> void
 {
   Super::BeginPlay();
+  fire->SetVisibility(false);
 }
 
 auto ASatellite::Tick(float DeltaTime) -> void
@@ -56,6 +61,7 @@ auto ASatellite::hack(float dt) -> bool
       return false;
     hackedSound->Play(0);
     gs->sateliteIsHacked();
+    fire->SetVisibility(true);
     return true;
   }
   return false;

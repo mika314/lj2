@@ -98,7 +98,7 @@ shield will open.
   - [x] gate
 
 - [x] landing animation
-- [ ] model of hacked satellite
+- [x] model of hacked satellite
 - [ ] bg images on intro and cleared screens
 - [x] model of spaceship dashboard
 
@@ -128,4 +128,5 @@ https://mika314.itch.io/lj-ii-game?secret=EqW6ikZe6mEDu6QFF7KONMa9D3o
 - https://www.turbosquid.com/3d-models/3d-realistic-earth-photorealistic-2k-1279125
 - https://www.turbosquid.com/3d-models/3d-sci-fi-model-1432575
 - https://www.turbosquid.com/3d-models/tifa-lockheart-3d-model-1309431
+- https://freesound.org/people/SamsterBirdies/sounds/435695/
 

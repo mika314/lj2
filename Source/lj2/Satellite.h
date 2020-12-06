@@ -21,6 +21,9 @@ public:
   UPROPERTY(EditAnywhere)
   class UAudioComponent *hackedSound = nullptr;
 
+  UPROPERTY(EditAnywhere)
+  class UParticleSystemComponent *fire = nullptr;
+
   auto hack(float dt) -> bool;
 
 private:
