@@ -116,8 +116,13 @@ https://mika314.itch.io/lj-ii-game?secret=EqW6ikZe6mEDu6QFF7KONMa9D3o
 
 # Assets
 
-- Font comfortaa
 - https://freesound.org/people/Felfa/sounds/188693/
 - https://freesound.org/people/FunWithSound/sounds/361153/
 - https://freesound.org/people/Robinhood76/sounds/330724/
 - https://freesound.org/people/duckduckpony/sounds/130887/
+- https://www.dafont.com/comfortaa.font
+- https://www.turbosquid.com/3d-models/3d-model-cassini-space-probe/379982
+- https://www.turbosquid.com/3d-models/3d-realistic-earth-photorealistic-2k-1279125
+- https://www.turbosquid.com/3d-models/3d-sci-fi-model-1432575
+- https://www.turbosquid.com/3d-models/tifa-lockheart-3d-model-1309431
+
