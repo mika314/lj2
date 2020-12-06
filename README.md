@@ -103,8 +103,10 @@ shield will open.
 ## Sun 7:00 AM Main Menu
 
 - [x] model of hacked satellite
-- [ ] buttons
+- [x] buttons
 - [ ] bg images on intro and cleared screens
+- [ ] music
+- [ ] buttons sounds
 
 ...
 
