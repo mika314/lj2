@@ -75,3 +75,4 @@ DerivedDataCache/*
 *~
 *.blend1
 WindowsNoEditor/
+*-old*.wav
