@@ -25,7 +25,6 @@ ASatellite::ASatellite()
 auto ASatellite::BeginPlay() -> void
 {
   Super::BeginPlay();
-  fire->SetVisibility(false);
 }
 
 auto ASatellite::Tick(float DeltaTime) -> void
@@ -61,7 +60,7 @@ auto ASatellite::hack(float dt) -> bool
       return false;
     hackedSound->Play(0);
     gs->sateliteIsHacked();
-    fire->SetVisibility(true);
+    fire->ActivateSystem(true);
     return true;
   }
   return false;
