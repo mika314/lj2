@@ -40,6 +40,9 @@ public:
   UPROPERTY(EditAnywhere)
   class UAudioComponent *hackingSound = nullptr;
 
+  UPROPERTY(EditAnywhere)
+  class UAudioComponent *landingSound = nullptr;
+
   auto SetupPlayerInputComponent(class UInputComponent *) -> void override;
   auto Tick(float DeltaTime) -> void override;
 
@@ -49,13 +52,14 @@ private:
   auto hackOff() -> void;
   auto hackOn() -> void;
   auto land() -> void;
+  auto landingAnimation(float dt) -> void;
   auto sRight(float) -> void;
   auto settings() -> void;
 
   UUserWidget *settingsUi = nullptr;
   UUserWidget *hudUi = nullptr;
-
   class ASatellite *lockedSatellite;
   bool isHacking = false;
   bool wasHacking = false;
+  bool isLanding = false;
 };

@@ -34,5 +34,5 @@ auto APrjGameState::isGateOpen() const -> bool
 
 auto APrjGameState::numberOfSatellitesNeededToClearLevel() const -> int
 {
-  return 10;
+  return 3;
 }

@@ -12,11 +12,14 @@
 APrjPawn::APrjPawn()
   : mesh(CreateDefaultSubobject<UStaticMeshComponent>("mesh")),
     movement(CreateDefaultSubobject<UFloatingPawnMovement>("movement")),
-    hackingSound(CreateDefaultSubobject<UAudioComponent>("hackingSound"))
+    hackingSound(CreateDefaultSubobject<UAudioComponent>("hackingSound")),
+    landingSound(CreateDefaultSubobject<UAudioComponent>("landingSound"))
 {
   SetRootComponent(mesh);
   hackingSound->SetupAttachment(RootComponent);
   hackingSound->SetRelativeLocation(FVector());
+  landingSound->SetupAttachment(RootComponent);
+  landingSound->SetRelativeLocation(FVector());
 
   PrimaryActorTick.bCanEverTick = true;
 }
@@ -29,6 +32,13 @@ void APrjPawn::BeginPlay()
 void APrjPawn::Tick(float dt)
 {
   Super::Tick(dt);
+
+  if (isLanding)
+  {
+    landingAnimation(dt);
+    return;
+  }
+
   auto viewRot = GetViewRotation();
   auto actRot = GetActorRotation();
   actRot.Yaw = viewRot.Yaw;
@@ -79,6 +89,8 @@ auto APrjPawn::SetupPlayerInputComponent(UInputComponent *in) -> void
 
 auto APrjPawn::frwd(float val) -> void
 {
+  if (isLanding)
+    return;
   if (val == 0)
     return;
   AddMovementInput(GetActorForwardVector(), val);
@@ -86,6 +98,8 @@ auto APrjPawn::frwd(float val) -> void
 
 auto APrjPawn::sRight(float val) -> void
 {
+  if (isLanding)
+    return;
   if (val == 0)
     return;
   AddMovementInput(GetActorRightVector(), val);
@@ -93,6 +107,8 @@ auto APrjPawn::sRight(float val) -> void
 
 auto APrjPawn::settings() -> void
 {
+  if (isLanding)
+    return;
   auto playerController = GetWorld()->GetFirstPlayerController();
   settingsUi->SetVisibility(ESlateVisibility::Visible);
   hudUi->SetVisibility(ESlateVisibility::Hidden);
@@ -116,11 +132,15 @@ auto APrjPawn::getLockedSatellite() const -> class ASatellite *
 
 auto APrjPawn::hackOff() -> void
 {
+  if (isLanding)
+    return;
   isHacking = false;
 }
 
 auto APrjPawn::hackOn() -> void
 {
+  if (isLanding)
+    return;
   isHacking = true;
 }
 
@@ -142,6 +162,8 @@ auto APrjPawn::isOnTheStargate() const -> bool
 
 auto APrjPawn::land() -> void
 {
+  if (isLanding)
+    return;
   if (!isOnTheStargate())
     return;
   auto gs = Cast<APrjGameState>(GetWorld()->GetGameState());
@@ -149,5 +171,36 @@ auto APrjPawn::land() -> void
     return;
   if (!gs->isGateOpen())
     return;
-  gs->levelCleared();
+  isLanding = true;
+  landingSound->Play(0);
+}
+
+auto APrjPawn::landingAnimation(float dt) -> void
+{
+  auto loc = GetActorLocation();
+  const auto K = 0.01f;
+  while (loc.X > 360 / K * 3 / 2)
+    loc.X -= 360 / K;
+  while (loc.X < 360 / K / 2)
+    loc.X += 360 / K;
+  while (loc.Y > 360 / K * 3 / 2)
+    loc.Y -= 360 / K;
+  while (loc.Y < 360 / K / 2)
+    loc.Y += 360 / K;
+
+  loc.X -= 360 / K;
+  loc.Y -= 360 / K;
+
+  auto d = FVector{0, 0, 4770} - loc;
+  if (d.Size() < 10)
+  {
+    auto gs = Cast<APrjGameState>(GetWorld()->GetGameState());
+    if (!gs)
+      return;
+
+    gs->levelCleared();
+    return;
+  }
+
+  SetActorLocation(GetActorLocation() + (6000 - 4770) * d.GetSafeNormal() * dt / 15);
 }

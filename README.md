@@ -91,14 +91,16 @@ shield will open.
 ## Sat 7:15 AM Continue with gameplay
 
 - sounds
-  - [ ] hacking sound
-  - [ ] hacked sound
-  - [ ] fly sound
+  - [x] hacking
+  - [x] hacked
+  - [ ] fly
+  - [ ] land
+  - [x] gate
 
-- [ ] landing animation
+- [x] landing animation
 - [ ] model of hacked satellite
 - [ ] bg images on intro and cleared screens
-- [ ] model of spaceship dashboard
+- [x] model of spaceship dashboard
 
 ...
 
@@ -113,6 +115,9 @@ https://mika314.itch.io/lj-ii-game?secret=EqW6ikZe6mEDu6QFF7KONMa9D3o
 
 
 # Assets
-https://freesound.org/people/FunWithSound/sounds/361153/
-https://freesound.org/people/Felfa/sounds/188693/
-https://freesound.org/people/Robinhood76/sounds/330724/
+
+- Font comfortaa
+- https://freesound.org/people/Felfa/sounds/188693/
+- https://freesound.org/people/FunWithSound/sounds/361153/
+- https://freesound.org/people/Robinhood76/sounds/330724/
+- https://freesound.org/people/duckduckpony/sounds/130887/
