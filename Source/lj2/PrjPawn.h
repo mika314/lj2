@@ -37,6 +37,9 @@ public:
   UFUNCTION(BlueprintCallable)
   bool isOnTheStargate() const;
 
+  UPROPERTY(EditAnywhere)
+  class UAudioComponent *hackingSound = nullptr;
+
   auto SetupPlayerInputComponent(class UInputComponent *) -> void override;
   auto Tick(float DeltaTime) -> void override;
 
@@ -54,4 +57,5 @@ private:
 
   class ASatellite *lockedSatellite;
   bool isHacking = false;
+  bool wasHacking = false;
 };

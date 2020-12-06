@@ -18,7 +18,10 @@ public:
   UFUNCTION(BlueprintCallable)
   float getHackedPercent() const;
 
-  void hack(float dt);
+  UPROPERTY(EditAnywhere)
+  class UAudioComponent *hackedSound = nullptr;
+
+  auto hack(float dt) -> bool;
 
 private:
   auto Tick(float DeltaTime) -> void override;

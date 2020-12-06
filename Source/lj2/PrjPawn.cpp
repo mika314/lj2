@@ -3,6 +3,7 @@
 #include "Satellite.h"
 #include "log.hpp"
 #include <Blueprint/UserWidget.h>
+#include <Components/AudioComponent.h>
 #include <Components/StaticMeshComponent.h>
 #include <GameFramework/FloatingPawnMovement.h>
 #include <GameFramework/PlayerController.h>
@@ -10,9 +11,12 @@
 
 APrjPawn::APrjPawn()
   : mesh(CreateDefaultSubobject<UStaticMeshComponent>("mesh")),
-    movement(CreateDefaultSubobject<UFloatingPawnMovement>("movement"))
+    movement(CreateDefaultSubobject<UFloatingPawnMovement>("movement")),
+    hackingSound(CreateDefaultSubobject<UAudioComponent>("hackingSound"))
 {
   SetRootComponent(mesh);
+  hackingSound->SetupAttachment(RootComponent);
+  hackingSound->SetRelativeLocation(FVector());
 
   PrimaryActorTick.bCanEverTick = true;
 }
@@ -44,8 +48,19 @@ void APrjPawn::Tick(float dt)
     return;
 
   lockedSatellite = Cast<ASatellite>(hitResult.Actor.Get());
+  auto isSatelliteHacked = false;
   if (isHacking && lockedSatellite)
-    lockedSatellite->hack(dt);
+    isSatelliteHacked = lockedSatellite->hack(dt);
+
+  auto isHackingSnd = (isHacking && lockedSatellite && !isSatelliteHacked);
+  if (isHackingSnd != wasHacking)
+  {
+    if (isHackingSnd)
+      hackingSound->Play(rand() % 13);
+    else
+      hackingSound->Stop();
+  }
+  wasHacking = isHackingSnd;
 }
 
 auto APrjPawn::SetupPlayerInputComponent(UInputComponent *in) -> void

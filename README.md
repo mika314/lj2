@@ -109,3 +109,10 @@ Mon 1 AM
 
 # Download page
 https://mika314.itch.io/lj-ii-game?secret=EqW6ikZe6mEDu6QFF7KONMa9D3o
+
+
+
+# Assets
+https://freesound.org/people/FunWithSound/sounds/361153/
+https://freesound.org/people/Felfa/sounds/188693/
+https://freesound.org/people/Robinhood76/sounds/330724/

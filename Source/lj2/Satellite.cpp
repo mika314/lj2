@@ -2,14 +2,18 @@
 #include "PrjGameState.h"
 #include "PrjPawn.h"
 #include "log.hpp"
+#include <Components/AudioComponent.h>
 #include <Components/StaticMeshComponent.h>
 #include <Kismet/GameplayStatics.h>
 
 ASatellite::ASatellite()
   : mesh(CreateDefaultSubobject<UStaticMeshComponent>("mesh")),
+    hackedSound(CreateDefaultSubobject<UAudioComponent>("hackedSound")),
     rot(rand() % 360, rand() % 360, rand() % 360)
 {
   SetRootComponent(mesh);
+  hackedSound->SetupAttachment(RootComponent);
+  hackedSound->SetRelativeLocation(FVector());
 
   PrimaryActorTick.bCanEverTick = true;
 }
@@ -40,16 +44,19 @@ auto ASatellite::getHackedPercent() const -> float
   return hackedPercent;
 }
 
-auto ASatellite::hack(float dt) -> void
+auto ASatellite::hack(float dt) -> bool
 {
   if (hackedPercent >= 100)
-    return;
+    return true;
   hackedPercent += 16 * dt;
   if (hackedPercent >= 100)
   {
     auto gs = Cast<APrjGameState>(GetWorld()->GetGameState());
     if (!gs)
-      return;
+      return false;
+    hackedSound->Play(0);
     gs->sateliteIsHacked();
+    return true;
   }
+  return false;
 }

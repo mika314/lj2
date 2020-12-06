@@ -10,7 +10,7 @@ class LJ2_API APrjGameState : public AGameStateBase
 {
   GENERATED_BODY()
 public:
-  auto sateliteIsHacked() -> void;
+  APrjGameState();
 
   UFUNCTION(BlueprintCallable)
   int getHackedSatellitesCount() const;
@@ -21,6 +21,10 @@ public:
   UFUNCTION(BlueprintCallable)
   int numberOfSatellitesNeededToClearLevel() const;
 
+  UPROPERTY(EditAnywhere)
+  class UAudioComponent *gateSound = nullptr;
+
+  auto sateliteIsHacked() -> void;
   auto levelCleared() -> void;
 
 private:
