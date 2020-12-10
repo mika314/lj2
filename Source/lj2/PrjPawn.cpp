@@ -220,7 +220,7 @@ auto APrjPawn::lookUp(float val) -> void
 {
   if (val == 0)
     return;
-  rotY -= val;
+  rotY -= mouseSensitivity * val;
   updateRot();
 }
 
@@ -239,6 +239,16 @@ auto APrjPawn::turnRight(float val) -> void
 {
   if (val == 0)
     return;
-  rotZ += val;
+  rotZ += mouseSensitivity * val;
   updateRot();
+}
+
+auto APrjPawn::getMouseSensitivity() const -> float
+{
+  return mouseSensitivity;
+}
+
+auto APrjPawn::setMouseSensitivity(float val) -> void
+{
+  mouseSensitivity = val;
 }

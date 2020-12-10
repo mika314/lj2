@@ -37,6 +37,12 @@ public:
   UFUNCTION(BlueprintCallable)
   bool isOnTheStargate() const;
 
+  UFUNCTION(BlueprintCallable)
+  float getMouseSensitivity() const;
+
+  UFUNCTION(BlueprintCallable)
+  void setMouseSensitivity(float val);
+
   UPROPERTY(EditAnywhere)
   class UAudioComponent *hackingSound = nullptr;
 
@@ -67,5 +73,5 @@ private:
   bool isLanding = false;
   float rotZ = 0;
   float rotY = 0;
-
+  float mouseSensitivity = 1;
 };
