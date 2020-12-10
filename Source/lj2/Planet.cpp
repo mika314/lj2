@@ -29,14 +29,4 @@ auto APlanet::Tick(float DeltaTime) -> void
       return;
     starGate->SetVisibility(gs->isGateOpen());
   }
-
-  auto pawn = Cast<APrjPawn>(UGameplayStatics::GetPlayerPawn(this, 0));
-  if (!pawn)
-    return;
-
-  const auto loc = pawn->GetActorLocation();
-
-  const auto K = 0.01f;
-  SetActorRotation(FRotator::MakeFromEuler(FVector{-K * loc.Y, K * loc.X, 0}));
-  SetActorLocation(FVector{loc.X, loc.Y, 0});
 }

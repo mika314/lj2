@@ -17,7 +17,7 @@ public:
   class UStaticMeshComponent *mesh = nullptr;
 
   UPROPERTY(EditAnywhere)
-  class UFloatingPawnMovement *movement = nullptr;
+  class UStaticMeshComponent *mesh2 = nullptr;
 
   UFUNCTION(BlueprintCallable)
   void setSettingsUi(class UUserWidget *val) { settingsUi = val; }
@@ -53,8 +53,11 @@ private:
   auto hackOn() -> void;
   auto land() -> void;
   auto landingAnimation(float dt) -> void;
+  auto lookUp(float) -> void;
   auto sRight(float) -> void;
   auto settings() -> void;
+  auto turnRight(float) -> void;
+  auto updateRot() -> void;
 
   UUserWidget *settingsUi = nullptr;
   UUserWidget *hudUi = nullptr;
@@ -62,4 +65,7 @@ private:
   bool isHacking = false;
   bool wasHacking = false;
   bool isLanding = false;
+  float rotZ = 0;
+  float rotY = 0;
+
 };

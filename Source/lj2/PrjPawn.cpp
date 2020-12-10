@@ -8,14 +8,17 @@
 #include <GameFramework/FloatingPawnMovement.h>
 #include <GameFramework/PlayerController.h>
 #include <GameFramework/PlayerInput.h>
+#include <cmath>
 
 APrjPawn::APrjPawn()
   : mesh(CreateDefaultSubobject<UStaticMeshComponent>("mesh")),
-    movement(CreateDefaultSubobject<UFloatingPawnMovement>("movement")),
+    mesh2(CreateDefaultSubobject<UStaticMeshComponent>("mesh2")),
     hackingSound(CreateDefaultSubobject<UAudioComponent>("hackingSound")),
     landingSound(CreateDefaultSubobject<UAudioComponent>("landingSound"))
 {
   SetRootComponent(mesh);
+  mesh2->SetupAttachment(RootComponent);
+  mesh2->SetRelativeLocation(FVector());
   hackingSound->SetupAttachment(RootComponent);
   hackingSound->SetRelativeLocation(FVector());
   landingSound->SetupAttachment(RootComponent);
@@ -39,14 +42,10 @@ void APrjPawn::Tick(float dt)
     return;
   }
 
-  auto viewRot = GetViewRotation();
-  auto actRot = GetActorRotation();
-  actRot.Yaw = viewRot.Yaw;
-  SetActorRotation(actRot);
+  updateRot();
 
-  FVector loc;
-  FRotator rot;
-  GetActorEyesViewPoint(loc, rot);
+  FVector loc = GetActorLocation();
+  FRotator rot = mesh2->GetComponentRotation();
 
   FCollisionQueryParams params;
   params.AddIgnoredActor(this);
@@ -82,9 +81,9 @@ auto APrjPawn::SetupPlayerInputComponent(UInputComponent *in) -> void
   in->BindAction("Hack", IE_Released, this, &APrjPawn::hackOff);
   in->BindAction("Land", IE_Pressed, this, &APrjPawn::land);
   in->BindAxis("Frwd", this, &APrjPawn::frwd);
-  in->BindAxis("LookUp", this, &APrjPawn::AddControllerPitchInput);
+  in->BindAxis("LookUp", this, &APrjPawn::lookUp);
   in->BindAxis("SRight", this, &APrjPawn::sRight);
-  in->BindAxis("TurnRight", this, &APrjPawn::AddControllerYawInput);
+  in->BindAxis("TurnRight", this, &APrjPawn::turnRight);
 }
 
 auto APrjPawn::frwd(float val) -> void
@@ -93,7 +92,13 @@ auto APrjPawn::frwd(float val) -> void
     return;
   if (val == 0)
     return;
-  AddMovementInput(GetActorForwardVector(), val);
+
+  const auto rot = mesh2->GetComponentRotation();
+  auto loc = GetActorLocation();
+  loc = loc + 6 * rot.Vector() * val;
+  loc = loc * 6000 / loc.Size();
+  SetActorLocation(loc);
+  updateRot();
 }
 
 auto APrjPawn::sRight(float val) -> void
@@ -102,7 +107,13 @@ auto APrjPawn::sRight(float val) -> void
     return;
   if (val == 0)
     return;
-  AddMovementInput(GetActorRightVector(), val);
+
+  const auto vec = FRotationMatrix(mesh2->GetComponentRotation()).GetScaledAxis(EAxis::Y);
+  auto loc = GetActorLocation();
+  loc = loc + 6 * vec * val;
+  loc = loc * 6000 / loc.Size();
+  SetActorLocation(loc);
+  updateRot();
 }
 
 auto APrjPawn::settings() -> void
@@ -203,4 +214,31 @@ auto APrjPawn::landingAnimation(float dt) -> void
   }
 
   SetActorLocation(GetActorLocation() + (6000 - 4770) * d.GetSafeNormal() * dt / 15);
+}
+
+auto APrjPawn::lookUp(float val) -> void
+{
+  if (val == 0)
+    return;
+  rotY -= val;
+  updateRot();
+}
+
+auto APrjPawn::updateRot() -> void
+{
+  auto loc = GetActorLocation();
+  auto z = atan2(loc.Y, loc.X) * 180 / 3.1415926f;
+  auto y = -atan2(sqrt(loc.Y * loc.Y + loc.X * loc.X), loc.Z) * 180 / 3.1415926f;
+
+  mesh2->SetWorldRotation(FRotator{FRotator{0, z, 0}.Quaternion() * FRotator{y, 0, 0}.Quaternion() *
+                                   FRotator{0, rotZ, 0}.Quaternion() *
+                                   FRotator{rotY, 0, 0}.Quaternion()});
+}
+
+auto APrjPawn::turnRight(float val) -> void
+{
+  if (val == 0)
+    return;
+  rotZ += val;
+  updateRot();
 }
