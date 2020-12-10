@@ -32,7 +32,9 @@ auto ASatellite::Tick(float DeltaTime) -> void
   Super::Tick(DeltaTime);
   const auto time = GetWorld()->GetTimeSeconds();
   SetActorLocation(rot.RotateVector(FVector(0, 6000 * sin(0.1 * time), 6000 * cos(0.1 * time))));
-  // TODO-Mika make satellite tumble
+  SetActorRotation(FRotator(FRotator::NormalizeAxis(time * 2 * rot.Yaw / 90),
+                            FRotator::NormalizeAxis(time * 4 * rot.Pitch / 90),
+                            FRotator::NormalizeAxis(time * 8 * rot.Roll / 90)));
 }
 
 auto ASatellite::getHackedPercent() const -> float
